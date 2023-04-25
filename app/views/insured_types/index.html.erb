@@ -1,0 +1,41 @@
+<%= content_tag :h1, "List of Insured Types" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_insured_type_path, class: 'btn btn-primary' do %>
+    New Insured Type
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+
+      <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @insured_types.each do |insured_type| %>
+        <tr>
+
+        <td><%= insured_type.id %></td>
+        <td><%= insured_type.name %></td>
+        <td><%= insured_type.description %></td>
+    
+          <td>
+            <%= link_to 'View', insured_type, class: 'btn' %>
+            <%= link_to 'Edit', edit_insured_type_path(insured_type), class: 'btn' %>
+            <%= link_to 'Delete', insured_type, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

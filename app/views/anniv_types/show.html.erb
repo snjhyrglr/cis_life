@@ -1,0 +1,9 @@
+
+<%= render @anniv_type %>
+
+<div>
+  <%= link_to "Edit", edit_anniv_type_path(@anniv_type), class: 'btn btn-primary' %> |
+  <%= link_to "Back", anniv_types_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @anniv_type, method: :delete, class: 'btn btn-danger' %>
+</div>

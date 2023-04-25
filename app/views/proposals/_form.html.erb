@@ -1,0 +1,57 @@
+
+<%= simple_form_for(@proposal) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs mb-3">
+    <div class="row">
+      <%= f.association :plan, input_html: { data: { controller: "ts--select" } }, wrapper_html: { class: "col-6" } %>
+      <%= f.association :cooperative, input_html: { data: { controller: "ts--select" } }, wrapper_html: { class: "col-6" } %>
+    </div>
+
+    <%= content_tag :h3, "Officers", id: "officer" %>
+    <div id="officers">
+      <%= f.simple_fields_for :officers do |officer| %>
+        <%= render 'officer_fields', f: officer %>
+      <% end %>
+      <div class="links" id="add-officer">
+        <%= link_to_add_association 'add officer', f, :officers, class: "btn btn-secondary btn-sm mb-2" %>
+      </div>
+    </div>
+
+    <%#= f.input :proposal_no %>
+    <div class="row">
+      <%= f.input :new_min_age, label: "New Entry Age", wrapper_html: { class: "col-6" } %>
+      <%= f.input :new_max_age, label: "New Exit Age", wrapper_html: { class: "col-6" } %>
+    </div>
+    <div class="row">
+      <%= f.input :old_min_age, label: "Old Entry Age", wrapper_html: { class: "col-6" } %>
+      <%= f.input :old_max_age, label: "Old Exit Age", wrapper_html: { class: "col-6" } %>
+    </div>
+    <%#= f.input :ave_age %>
+    <%#= f.input :member_count %>
+    <%#= f.input :total_premium %>
+    <div class="row">
+      <%= f.input :coop_sf, wrapper_html: { class: "col-6" } %>
+      <%= f.input :agent_sf, wrapper_html: { class: "col-6" } %>
+    </div>
+
+    <%= content_tag :h3, "Policy Anniversary" %>
+    <div class="row">
+      <%= f.simple_fields_for :proposal_anniv, @proposal.proposal_anniv do |pro| %>
+        <%= pro.association :anniv_type, wrapper_html: { class: "col-4" } %>
+        <div data-controller="dynamic_date">
+          <%= pro.input :mon, collection: Date::MONTHNAMES.compact, wrapper_html: { class: "col-4" }, input_html: { id: "policy_month" } %>
+          <%= pro.input :day, collection: (1..31).to_a, wrapper_html: { class: "col-4" }, input_html: { id: "policy_day" } %>
+        </div>
+      <% end %>
+    </div>
+    <%#= f.input :actuarial_approval %>
+    <%#= f.input :agent_approval %>
+  </div>
+
+  <div class="form-actions text-end">
+    <%= link_to "Back", proposals_path, class: 'btn btn-secondary' %>
+    <%= f.button :submit, class: 'btn-success' %>
+  </div>
+<% end %>

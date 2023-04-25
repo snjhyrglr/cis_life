@@ -1,0 +1,1 @@
+json.partial! "proposal_insured_loadings/proposal_insured_loading", proposal_insured_loading: @proposal_insured_loading

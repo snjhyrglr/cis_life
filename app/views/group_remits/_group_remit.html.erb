@@ -1,0 +1,106 @@
+<div id="<%= dom_id group_remit %>">
+  <p>
+    <strong>Name:</strong>
+    <%= group_remit.name %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= group_remit.description %>
+  </p>
+
+  <p>
+    <strong>Agreement:</strong>
+    <%= group_remit.moa.moa_no %>
+  </p>
+
+  <%= content_tag :p do %>
+    <%= content_tag :strong, "Total Premium (Active): " %>
+    <%= to_currency(group_remit.batches.where(active: true).sum(:premium)) %>
+  <% end %>
+
+  <%= content_tag :p, class: "text-danger" do %>
+    <%= content_tag :strong, "Agent's Service Fee (Active): " %>
+    <%= to_currency(group_remit.batches.where(active: true).sum(:agent_sf_amount)) %>
+  <% end %>
+
+  <%= content_tag :p, class: "text-danger" do %>
+    <%= content_tag :strong, "Coop's Service Fee (Active): " %>
+    <%= to_currency(group_remit.batches.where(active: true).sum(:coop_sf_amount)) %>
+  <% end %>
+
+  <% net_prem = group_remit.batches.where(active: true).sum(:premium) - (group_remit.batches.where(active: true).sum(:agent_sf_amount) + group_remit.batches.where(active: true).sum(:coop_sf_amount)) %>
+
+  <%= content_tag :p, class: "text-success" do %>
+    <%= content_tag :strong, "Coop's Service Fee (Active): " %>
+    <%= to_currency(net_prem) %>
+  <% end %>
+  
+  <%= form_with url: group_remit_path(group_remit), method: :get do %>
+  <div class="form-group d-flex gap-3 mb-3">
+    <%= text_field_tag 'search_filter', nil, placeholder: 'Search...', class: "form-control", style: "width: auto", required: true %>
+    <%= submit_tag 'Search', class: "btn btn-primary"%>
+  </div>
+<% end %>
+
+  <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
+
+  <div class="mt-1 mb-1 text-end">
+    <%= link_to "Approve All", "#", class: "btn btn-success" %>
+    <%= link_to "Deny All", "#", class: "btn btn-danger" %>
+  </div>
+
+  <table class="table">
+    <thead>
+      <th>Member</th>
+      <th>Effective Date</th>
+      <th>Expiry Date</th>
+      <th>Status</th>
+      <th>Active</th>
+      <th>Premium</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <%# group_remit.batches.each do |batch| %>
+      <% @filtered_batches.each do |batch| %>
+        <tr>
+          <td>
+            <%= batch.coop_member.full_name %>
+          </td>
+          <td><%= batch.effectivity_date %></td>
+          <td><%= batch.expiry_date %></td>
+          <td> <%= batch.status %> </td>
+          <td><%= bootstrap_icon "#{batch.active? ? 'check-circle-fill' : 'exclamation-circle-fill'}", fill: "#{batch.active? ? 'green' : 'red'}" %></td>
+          <td>
+            <div class="row">
+              <%= content_tag :span do %>
+                <p>Premium: <b><%= to_currency(batch.premium) %></b> </p>
+              <% end %>
+            </div>
+            <div class="row">
+              <%= content_tag :span, class: "badge text-danger text-start" do %>
+                <p>Agent's SF: <b><%= to_currency(batch.agent_sf_amount) %></b> </p>
+              <% end %>
+            </div>
+            <div class="row">
+              <%= content_tag :span, class: "badge text-danger text-start" do %>
+                <p>Coop's SF: <b><%= to_currency(batch.coop_sf_amount) %></b> </p>
+              <% end %>
+            </div>
+          </td>
+          <td>
+            <% if batch.active? %>
+              <%= link_to "#", title: "Approve", class: "btn btn-sm btn-success" do %>
+                <%= bootstrap_icon "check-lg" %>
+              <% end %>
+              <%= link_to "#", title: "Deny", class: "btn btn-sm btn-danger" do %>
+                <%= bootstrap_icon "x-lg" %>
+              <% end %>
+            <% end %>  
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>

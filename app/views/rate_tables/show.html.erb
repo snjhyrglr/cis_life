@@ -1,0 +1,9 @@
+
+<%= render @rate_table %>
+
+<div>
+  <%= link_to "Edit", edit_rate_table_path(@rate_table), class: 'btn btn-primary' %> |
+  <%= link_to "Back", rate_tables_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @rate_table, method: :delete, class: 'btn btn-danger' %>
+</div>

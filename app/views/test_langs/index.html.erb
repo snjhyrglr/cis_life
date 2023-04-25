@@ -1,0 +1,41 @@
+<%= content_tag :h1, "List of Test Langs" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_test_lang_path, class: 'btn btn-primary' do %>
+    New Test Lang
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+
+      <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @test_langs.each do |test_lang| %>
+        <tr>
+
+        <td><%= test_lang.id %></td>
+        <td><%= test_lang.name %></td>
+        <td><%= test_lang.description %></td>
+    
+          <td>
+            <%= link_to 'View', test_lang, class: 'btn' %>
+            <%= link_to 'Edit', edit_test_lang_path(test_lang), class: 'btn' %>
+            <%= link_to 'Delete', test_lang, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

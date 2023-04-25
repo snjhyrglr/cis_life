@@ -1,0 +1,41 @@
+<%= content_tag :h1, "List of Proposal Officers" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_proposal_officer_path, class: 'btn btn-primary' do %>
+    New Proposal Officer
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+
+      <th>ID</th>
+        <th>Proposal</th>
+        <th>Officer</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @proposal_officers.each do |proposal_officer| %>
+        <tr>
+
+        <td><%= proposal_officer.id %></td>
+        <td><%= proposal_officer.proposal %></td>
+        <td><%= proposal_officer.officer %></td>
+    
+          <td>
+            <%= link_to 'View', proposal_officer, class: 'btn' %>
+            <%= link_to 'Edit', edit_proposal_officer_path(proposal_officer), class: 'btn' %>
+            <%= link_to 'Delete', proposal_officer, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

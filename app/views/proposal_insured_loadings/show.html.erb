@@ -1,0 +1,9 @@
+
+<%= render @proposal_insured_loading %>
+
+<div>
+  <%= link_to "Edit", edit_proposal_insured_loading_path(@proposal_insured_loading), class: 'btn btn-primary' %> |
+  <%= link_to "Back", proposal_insured_loadings_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @proposal_insured_loading, method: :delete, class: 'btn btn-danger' %>
+</div>

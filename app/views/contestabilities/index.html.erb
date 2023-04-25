@@ -1,0 +1,47 @@
+<%= content_tag :h1, "List of Contestabilities" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_contestability_path, class: 'btn btn-primary' do %>
+    New Contestability
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+
+      <th>ID</th>
+        <th>Min Age</th>
+        <th>Max Age</th>
+        <th>Member Type</th>
+        <th>Period</th>
+        <th>Period Type</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @contestabilities.each do |contestability| %>
+        <tr>
+
+        <td><%= contestability.id %></td>
+        <td><%= contestability.min_age %></td>
+        <td><%= contestability.max_age %></td>
+        <td><%= contestability.member_type %></td>
+        <td><%= contestability.period %></td>
+        <td><%= contestability.period_type %></td>
+    
+          <td>
+            <%= link_to 'View', contestability, class: 'btn' %>
+            <%= link_to 'Edit', edit_contestability_path(contestability), class: 'btn' %>
+            <%= link_to 'Delete', contestability, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,9 @@
+
+<%= render @test_lang %>
+
+<div>
+  <%= link_to "Edit", edit_test_lang_path(@test_lang), class: 'btn btn-primary' %> |
+  <%= link_to "Back", test_langs_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @test_lang, method: :delete, class: 'btn btn-danger' %>
+</div>

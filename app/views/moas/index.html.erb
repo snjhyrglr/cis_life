@@ -1,0 +1,66 @@
+<%= content_tag :h1, "List of MOAs" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_moa_path, class: 'btn btn-primary' do %>
+    New
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+
+        <th>ID</th>
+        <th>Details</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @moas.each do |moa| %>
+        <tr>
+
+          <td><%= moa.id %></td>
+          
+          <td>
+            <%= content_tag :span, moa.proposal.cooperative.name, class: "h4 lead" %> <br>
+            <%= content_tag :span, "#{moa.proposal.plan.name}(#{moa.proposal.plan.short_name})", class: "h4 #{plan_bg(moa.proposal.plan_id)}" %>
+
+            <%= content_tag :p, "Proposal Details", class: "lead mt-2" %>
+
+            <%= content_tag :ul do %>
+              <%= content_tag :li, link_to(moa.proposal.proposal_no, moa.proposal) %>
+              <%= content_tag :li do %>
+                <div class="row">
+                  <p class="col-lg-4">Actuarial: <%= bootstrap_icon "#{moa.proposal.actuarial_approval? ? 'check-circle-fill' : 'exclamation-square'}", fill: "#{moa.proposal.actuarial_approval? ? 'green' : 'red'}" %> </p>
+                  <p class="col-lg-5">Agent/Coop: <%= bootstrap_icon "#{moa.proposal.agent_approval? ? 'check-circle-fill' : 'exclamation-square'}", fill: "#{moa.proposal.agent_approval? ? 'green' : 'red'}" %> </p>
+                </div>
+              <% end %>
+            <% end %>
+
+            <%= content_tag :p, "M.O.A. Details", class: "lead mt-2" %>
+            <%= content_tag :ul do %>
+              <%= content_tag :li, link_to(moa.moa_no, moa) %>
+              <%= content_tag :li do %>
+                Date Signed: <b><%= moa.moa_signed_date.strftime("%B %d, %Y") %></b>
+              <% end %>
+              <%= content_tag :li do %>
+                Date Notarized: <b><%= moa.notarized_date.strftime("%B %d, %Y") %></b>
+              <% end %>
+            <% end %>
+          </td>
+    
+          <td>
+            <%= link_to 'View', moa, class: 'btn' %>
+            <%= link_to 'Edit', edit_moa_path(moa), class: 'btn' %>
+            <%= link_to 'Delete', moa, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

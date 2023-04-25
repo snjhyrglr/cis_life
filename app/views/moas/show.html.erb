@@ -1,0 +1,9 @@
+
+<%= render @moa %>
+
+<div>
+  <%= link_to "Edit", edit_moa_path(@moa), class: 'btn btn-primary' %> |
+  <%= link_to "Back", moas_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @moa, method: :delete, class: 'btn btn-danger' %>
+</div>

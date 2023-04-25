@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  proposal: one
+  moa_no: MyString
+  notarized_date: 2023-04-18
+  moa_signed_date: 2023-04-18
+
+two:
+  proposal: two
+  moa_no: MyString
+  notarized_date: 2023-04-18
+  moa_signed_date: 2023-04-18

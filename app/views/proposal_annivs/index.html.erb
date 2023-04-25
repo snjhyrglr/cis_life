@@ -1,0 +1,45 @@
+<%= content_tag :h1, "List of Proposal Annivs" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_proposal_anniv_path, class: 'btn btn-primary' do %>
+    New Proposal Anniv
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+
+      <th>ID</th>
+        <th>Proposal</th>
+        <th>Anniv Type</th>
+        <th>Month</th>
+        <th>Day</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @proposal_annivs.each do |proposal_anniv| %>
+        <tr>
+
+        <td><%= proposal_anniv.id %></td>
+        <td><%= proposal_anniv.proposal %></td>
+        <td><%= proposal_anniv.anniv_type %></td>
+        <td><%= proposal_anniv.month %></td>
+        <td><%= proposal_anniv.day %></td>
+    
+          <td>
+            <%= link_to 'View', proposal_anniv, class: 'btn' %>
+            <%= link_to 'Edit', edit_proposal_anniv_path(proposal_anniv), class: 'btn' %>
+            <%= link_to 'Delete', proposal_anniv, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

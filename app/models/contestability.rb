@@ -1,0 +1,2 @@
+class Contestability < ApplicationRecord
+end

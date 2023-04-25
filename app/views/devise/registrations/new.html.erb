@@ -1,0 +1,26 @@
+<h2>Register</h2>
+
+<%= select_tag :category, options_for_select([['Select a role', '', {disabled: true, selected: true}],'Agent', 'Coop', 'Employee']), id: "formCategory", class: "form-select" %>
+
+<div class="hidden" id="agentForm">
+    <%= render "agents/form", agent: @agent %>
+</div>
+
+<div class="hidden" id="coopForm">
+    <%= render "coop_users/form", coop_user: @coop_user %>
+</div>
+
+<div class="hidden" id="employeeForm">
+    <%= render "employees/form", employee: @employee %>
+</div>
+
+
+<%= javascript_include_tag 'toggleForms' %>
+<script type="module">
+    toggleForms();
+</script>
+
+
+
+
+

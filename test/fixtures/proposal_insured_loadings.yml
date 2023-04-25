@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  proposal_insured: one
+  gyrt_loading: one
+  name: MyString
+  rate: 9.99
+
+two:
+  proposal_insured: two
+  gyrt_loading: two
+  name: MyString
+  rate: 9.99

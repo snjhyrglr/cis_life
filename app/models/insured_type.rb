@@ -1,0 +1,2 @@
+class InsuredType < ApplicationRecord
+end

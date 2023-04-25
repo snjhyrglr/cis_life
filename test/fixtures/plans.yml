@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  short_name: MyString
+  product_line: one
+  product_category: one
+
+two:
+  name: MyString
+  short_name: MyString
+  product_line: two
+  product_category: two

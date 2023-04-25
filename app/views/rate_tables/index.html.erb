@@ -1,0 +1,45 @@
+<%= content_tag :h1, "List of Rate Tables" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_rate_table_path, class: 'btn btn-primary' do %>
+    New Rate Table
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+
+      <th>ID</th>
+        <th>Proposal</th>
+        <th>Gyrt Rate</th>
+        <th>Count</th>
+        <th>Qx</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @rate_tables.each do |rate_table| %>
+        <tr>
+
+        <td><%= rate_table.id %></td>
+        <td><%= rate_table.proposal %></td>
+        <td><%= rate_table.gyrt_rate %></td>
+        <td><%= rate_table.count %></td>
+        <td><%= rate_table.qx %></td>
+    
+          <td>
+            <%= link_to 'View', rate_table, class: 'btn' %>
+            <%= link_to 'Edit', edit_rate_table_path(rate_table), class: 'btn' %>
+            <%= link_to 'Delete', rate_table, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

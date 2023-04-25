@@ -1,0 +1,45 @@
+<%= content_tag :h1, "List of Proposal Insured Loadings" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_proposal_insured_loading_path, class: 'btn btn-primary' do %>
+    New Proposal Insured Loading
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+
+      <th>ID</th>
+        <th>Proposal Insured</th>
+        <th>Gyrt Loading</th>
+        <th>Name</th>
+        <th>Rate</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @proposal_insured_loadings.each do |proposal_insured_loading| %>
+        <tr>
+
+        <td><%= proposal_insured_loading.id %></td>
+        <td><%= proposal_insured_loading.proposal_insured %></td>
+        <td><%= proposal_insured_loading.gyrt_loading %></td>
+        <td><%= proposal_insured_loading.name %></td>
+        <td><%= proposal_insured_loading.rate %></td>
+    
+          <td>
+            <%= link_to 'View', proposal_insured_loading, class: 'btn' %>
+            <%= link_to 'Edit', edit_proposal_insured_loading_path(proposal_insured_loading), class: 'btn' %>
+            <%= link_to 'Delete', proposal_insured_loading, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

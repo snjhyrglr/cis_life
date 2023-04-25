@@ -1,0 +1,9 @@
+<% if current_user.userable_type == "Employees" %>
+  <h1>New <%= "#{@cooperative.name}" %> member</h1>
+<% else %>
+  <%= content_tag :h1, "New Member" %>
+<% end %>
+
+<%= render "form", coop_member: @coop_member %>
+
+<br>
