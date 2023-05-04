@@ -1,0 +1,15 @@
+<% if params[:for_modal] == "yes" %>
+  <%= render "remote_modal", title: "Health Dec" do %>
+    <%= render @batch_health_dec %>
+  <% end %>
+<% else %>
+  <%= render @batch_health_dec %>
+<% end %>
+
+<div>
+  <%= link_to "Edit", edit_batch_health_dec_path(@batch_health_dec), class: 'btn btn-primary' %> |
+  <%= link_to "Back", batch_health_decs_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @batch_health_dec, method: :delete, class: 'btn btn-danger' %>
+</div>
+

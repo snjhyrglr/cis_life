@@ -35,5 +35,23 @@ module ApplicationHelper
     end
   end
 
+  def health_dec_answer(val)
+    puts "#{val}---->"
+    case val 
+    when "true" then bootstrap_icon('check-circle-fill', fill: "green")
+    when "false" then bootstrap_icon('x-circle-fill', fill: "gray")
+    else
+      val
+    end
+  end
+
+  def insurance_status(val)
+    case val
+    when "Pending" then content_tag(:span, val, class: "lead text-secondary")
+    when "Approved" then content_tag(:span, val, class: "lead text-success")
+    when "Denied" then content_tag(:span, val, class: "lead text-danger")
+    end
+  end
+
   
 end

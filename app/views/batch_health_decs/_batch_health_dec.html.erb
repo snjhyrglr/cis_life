@@ -1,0 +1,44 @@
+<div id="<%= dom_id batch_health_dec %>">
+  <div class="row text-center">
+    <div class="col-12">
+      <div class="card col-10 mb-3">
+        <div class="card-header">
+          <%= content_tag :span, "Health Declaration", class: "lead" %>
+        </div>
+        <div class="card-body">
+
+          <div class="row fw-bold">
+            <div class="col-8">
+              QUESTIONS
+            </div>
+            <div class="col-4">
+              ANSWERS
+            </div>
+          </div>
+
+          <% HealthDecQuestion.column_names.each do |col| %>
+            <% next unless col.start_with?("question_") %>
+            <div class="row">
+              <div class="col-8 mb-1">
+                <% ans = col[9..-1] %>
+                <% if batch_health_dec["ans_q#{ans}"] == "" %>
+                  <% f_ans = "-" %>
+                <% else %>
+                  <% f_ans = batch_health_dec["ans_q#{ans}"] %>
+                <% end %>
+                <%= col.humanize %>: <%= @health_dec.send(col) %>
+              </div>
+              <div class="col-4">
+                <%= content_tag :span, health_dec_answer(f_ans) %>
+              </div>
+            </div>
+            <hr>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,59 @@
+
+<%= simple_form_for(@process_coverage) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs mb-3">
+    <div class="row">
+      <%= f.association :group_remit, input_html: { data: { controller: "ts--select" } }, wrapper_html: { class: "col-4" } %>
+      <%= f.association :plan, input_html: { data: { controller: "ts--select" } }, wrapper_html: { class: "col-4" } %>
+      <%= f.association :agent, input_html: { data: { controller: "ts--select" } }, wrapper_html: { class: "col-4" } %>
+    </div>
+    <div class="row">
+      <%= f.input :effectivity, as: :string, wrapper_html: { class: "col-4" }, input_html: { data: { controller: "flatpickr",
+          flatpickr_max_date: Time.zone.now,
+          flatpickr_next_arrow: "Next",
+          flatpickr_prev_arrow: "Prev" } } %>
+      <%= f.input :expiry, as: :string, wrapper_html: { class: "col-4" }, input_html: { data: { controller: "flatpickr",
+          flatpickr_min_date: Time.zone.now,
+          flatpickr_next_arrow: "Next",
+          flatpickr_prev_arrow: "Prev" } } %>
+      <%= f.input :status, collection: ProcessCoverage::STATUSES, wrapper_html: { class: "col-4" } %>
+    </div>
+
+<!-- 
+    <div class="row mt-3">
+      <div class="col-6">
+        <div class="card border-success">
+          <div class="card-header bg-success text-white">
+            Coverage Summary
+          </div>
+          <div class="card-body">
+            <%= f.input :approved_count %>
+            <%= f.input :approved_total_coverage %>
+            <%= f.input :approved_total_prem  %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="card border-danger">
+          <div class="card-header bg-danger text-white">
+            Denied Coverage
+          </div>
+          <div class="card-body">
+            <%= f.input :denied_count %>
+            <%= f.input :denied_total_coverage %>
+            <%= f.input :denied_total_prem  %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+-->
+
+  <div class="form-actions text-end">
+    <%= link_to "Back", process_coverages_path, class: 'btn btn-secondary' %>
+    <%= f.button :submit, class: 'btn-success' %>
+  </div>
+<% end %>

@@ -15,7 +15,7 @@
         <%= render 'officer_fields', f: officer %>
       <% end %>
       <div class="links" id="add-officer">
-        <%= link_to_add_association 'add officer', f, :officers, class: "btn btn-secondary btn-sm mb-2" %>
+        <%= link_to_add_association 'add officer', f, :officers, class: "btn btn-secondary btn-sm mb-2 add-officer", "data-cocoon-after-insert": "set_random_value" %>
       </div>
     </div>
 
@@ -32,19 +32,37 @@
     <%#= f.input :member_count %>
     <%#= f.input :total_premium %>
     <div class="row">
-      <%= f.input :coop_sf, wrapper_html: { class: "col-6" } %>
-      <%= f.input :agent_sf, wrapper_html: { class: "col-6" } %>
+      <%= f.input :coop_sf, label: "Coop Service Fee (%)", wrapper_html: { class: "col-6" } %>
+      <%= f.input :agent_sf, label: "Agent Service Fee (%)", wrapper_html: { class: "col-6" } %>
     </div>
 
-    <%= content_tag :h3, "Policy Anniversary" %>
     <div class="row">
-      <%= f.simple_fields_for :proposal_anniv, @proposal.proposal_anniv do |pro| %>
-        <%= pro.association :anniv_type, wrapper_html: { class: "col-4" } %>
-        <div data-controller="dynamic_date">
-          <%= pro.input :mon, collection: Date::MONTHNAMES.compact, wrapper_html: { class: "col-4" }, input_html: { id: "policy_month" } %>
-          <%= pro.input :day, collection: (1..31).to_a, wrapper_html: { class: "col-4" }, input_html: { id: "policy_day" } %>
-        </div>
-      <% end %>
+      <div class="col-6">
+        <%= content_tag :h3, "Policy Anniversary" %>
+          <div class="row">
+            <%= f.simple_fields_for :proposal_anniv, @proposal.proposal_anniv do |pro| %>
+              <%= pro.association :anniv_type, label: "Anniversary Type", wrapper_html: { class: "col-4" } %>
+              <%= pro.input :mon, label: "Select Month", collection: Date::MONTHNAMES.compact.each_with_index.map { |m, i| [m, i + 1] }, wrapper_html: { class: "col-4" }, input_html: { id: 'my_model_month' } %>
+              <%= pro.input :day, label: "Select Day", collection: (1..31).to_a, wrapper_html: { class: "col-4" }, input_html: { id: 'my_model_day' } %>
+            <% end %>
+          </div>
+      </div>
+      <div class="col-6">
+        <%= content_tag :h3, "Members" %>
+        <%= f.input :file, as: :file, label: "Upload Member's Masterlist" %>
+      </div>
+    </div>
+
+    <div class="row">
+      <%= content_tag :h3, "Benefits" %>
+      <div id="gyrt_options">
+        <%= f.simple_fields_for :proposal_insureds do |pi| %>
+          <%= render 'proposal_insured_fields', f: pi %>
+        <% end %>
+      </div>
+      <div class="links">
+        <%= link_to_add_association 'Add Insured Type', f, :proposal_insureds, class: "btn btn-sm btn-success" %>
+      </div>
     </div>
     <%#= f.input :actuarial_approval %>
     <%#= f.input :agent_approval %>

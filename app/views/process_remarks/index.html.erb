@@ -1,0 +1,43 @@
+<%= content_tag :h1, "List of Process Remarks" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_process_remark_path, class: 'btn btn-primary' do %>
+    New Process Remark
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+
+      <th>ID</th>
+        <th>Reference</th>
+        <th>Remark</th>
+        <th>User</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @process_remarks.each do |process_remark| %>
+        <tr>
+
+        <td><%= process_remark.id %></td>
+        <td><%= process_remark.reference %></td>
+        <td><%= process_remark.remark %></td>
+        <td><%= process_remark.user %></td>
+    
+          <td>
+            <%= link_to 'View', process_remark, class: 'btn' %>
+            <%= link_to 'Edit', edit_process_remark_path(process_remark), class: 'btn' %>
+            <%= link_to 'Delete', process_remark, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

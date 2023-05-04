@@ -1,0 +1,13 @@
+<div class="nested-fields mt-1 mb-1">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <%= f.association :benefit, label: "Select Benefit", wrapper_html: { class: "col-6" } %>
+        <%= f.input :cov_amount, label: "Input Coverage Amount", wrapper_html: { class: "col-6" } %>
+      </div>
+    </div>
+    <div class="card-footer">
+      <%= link_to_remove_association "Remove Benefit", f, class: "btn btn-sm btn-danger" %>
+    </div>
+  </div>
+</div>

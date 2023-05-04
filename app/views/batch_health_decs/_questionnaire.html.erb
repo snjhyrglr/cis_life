@@ -1,0 +1,67 @@
+<%= f.input :health_dec_question_id, as: :hidden, input_html: { value: @health_dec.id } %>
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-10">
+        <%= content_tag :p, @health_dec.question_1 %>
+      </div>
+      <div class="col-2">
+        <%= f.input :ans_q1, label: "", as: :radio_buttons, item_wrapper_class: 'inline' %>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-10">
+        <%= @health_dec.question_2 %>
+      </div>
+      <div class="col-2">
+        <%= f.input :ans_q2, label: "", as: :radio_buttons, item_wrapper_class: 'inline' %>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-10">
+        <%= content_tag :p, @health_dec.question_3 %>
+        <%= content_tag :p, @health_dec.question_3_desc, class: "" %>
+        <%= f.input :ans_q3_desc, as: :text, label: "Input answer", wrapper_html: { id: "myTextBox3" } %>
+      </div>
+      <div class="col-2">
+        <%= f.input :ans_q3, collection: [['Yes', true], ['No', false]], as: :radio_buttons, label: "", item_wrapper_class: 'inline' %>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-10">
+        <%= content_tag :p, @health_dec.question_4 %>
+        <%= content_tag :p, @health_dec.question_4_desc, class: "" %>
+        <%= f.input :ans_q4_desc, as: :text, label: "Input answer", wrapper_html: { id: "myTextBox2" } %>
+      </div>
+      <div class="col-2">
+        <%= f.input :ans_q4, collection: [['Yes', true], ['No', false]], as: :radio_buttons, label: "", item_wrapper_class: 'inline' %>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-10">
+        <%= content_tag :p, @health_dec.question_5_a %>
+        <%= content_tag :p, @health_dec.question_5_a_desc, class: "" %>
+        <%= f.input :ans_q5_a_desc, as: :text, label: "Input answer", wrapper_html: { id: "myTextBox1" } %>
+      </div>
+      <div class="col-2">
+        <%= f.input :ans_q5_a, collection: [['Yes', true], ['No', false]], as: :radio_buttons, label: "", item_wrapper_class: 'inline' %>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-10">
+        <%= content_tag :p, @health_dec.question_5_b %>
+        <%= content_tag :p, @health_dec.question_5_b_desc, class: "" %>
+        <%= f.input :ans_q5_b_desc, as: :text, label: "Input answer", wrapper_html: { id: "myTextBox" } %>
+      </div>
+      <div class="col-2">
+        <%#= f.collection_radio_buttons :ans_q5_b, label: "", as: :radio_buttons, item_wrapper_class: 'inline', input_html: { id: "myCheckbox" } %>
+        <%= f.input :ans_q5_b, collection: [['Yes', true], ['No', false]], as: :radio_buttons, label: "", item_wrapper_class: 'inline' %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="nested-fields mt-2 mb-2">
+  <div class="card">
+    <div class="card-body">
+      <%= f.association :insured_type, input_html: { data: { controller: "ts--select" } } %>
+      <div id="gyrt_options">
+        <%= f.simple_fields_for :proposal_insured_benefits do |pib| %>
+          <%= render 'proposal_insured_benefit_fields', f: pib %>
+        <% end %>
+      <div class="links">
+        <%= link_to_add_association 'Add Benefits', f, :proposal_insured_benefits %>
+      </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <%= link_to_remove_association "Remove Insured Type", f, class: "btn btn-sm btn-danger" %>
+    </div>
+  </div>
+</div>

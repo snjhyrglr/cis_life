@@ -1,0 +1,41 @@
+<%= content_tag :h1, "List of Agent Positions" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_agent_position_path, class: 'btn btn-primary' do %>
+    New Agent Position
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+
+      <th>ID</th>
+        <th>Name</th>
+        <th>Active</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @agent_positions.each do |agent_position| %>
+        <tr>
+
+        <td><%= agent_position.id %></td>
+        <td><%= agent_position.name %></td>
+        <td><%= agent_position.active %></td>
+    
+          <td>
+            <%= link_to 'View', agent_position, class: 'btn' %>
+            <%= link_to 'Edit', edit_agent_position_path(agent_position), class: 'btn' %>
+            <%= link_to 'Delete', agent_position, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

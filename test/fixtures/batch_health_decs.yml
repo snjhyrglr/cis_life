@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  batch: one
+  health_dec_question: one
+  sub_rate: 9.99
+  sub_prem: 9.99
+  sub_coverage: 9.99
+  status: MyString
+
+two:
+  batch: two
+  health_dec_question: two
+  sub_rate: 9.99
+  sub_prem: 9.99
+  sub_coverage: 9.99
+  status: MyString

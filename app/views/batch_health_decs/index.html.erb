@@ -1,0 +1,46 @@
+<%= content_tag :h1, "List of Batch Health Decs" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_batch_health_dec_path, class: 'btn btn-primary' do %>
+    New Batch Health Dec
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+
+        <th>ID</th>
+        <th>Batch</th>
+        <th>Status</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @batch_health_decs.each do |bhd| %>
+        <tr>
+
+          <td><%= bhd.id %></td>
+          <td>
+            <%= content_tag :span do %>
+              <%= content_tag :span, bhd.batch.coop_member.member.full_name, class: "lead fw-bold" %> <br>
+              <%= content_tag :small, bhd.batch.coop_member.cooperative.name  %>
+            <% end %>
+          </td>
+          <td><%= bhd.status %></td>
+    
+          <td>
+            <%= link_to 'View', bhd, class: 'btn' %>
+            <%= link_to 'Edit', edit_batch_health_dec_path(bhd), class: 'btn' %>
+            <%= link_to 'Delete', bhd, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

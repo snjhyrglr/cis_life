@@ -8,6 +8,8 @@ class User < ApplicationRecord
   attribute :admin, :boolean, default: false
   attribute :approved, :boolean, default: false
 
+  has_many :process_remarks, as: :user
+
   # Override Devise method to prevent login if not approved
   def active_for_authentication?
     super && approved?

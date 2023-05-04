@@ -1,37 +1,93 @@
 <div id="<%= dom_id batch %>">
-  <p>
-    <strong>Coop member:</strong>
-    <%= batch.coop_member_id %>
-  </p>
 
-  <p>
-    <strong>Group remit:</strong>
-    <%= batch.group_remit_id %>
-  </p>
+  <div class="card mb-3">
+    <div class="card-header">
+      <%= content_tag :h3, class: "lead fw-bold" do %>
+        <%= batch.coop_member.member.full_name.titleize %> 
+        <%= content_tag :small, "(#{batch.coop_member.cooperative.name})", class: "text-muted" %>
+        <%= content_tag :span, bootstrap_icon("#{batch.active? ? 'check-circle-fill' : 'exclamation-circle-fill'}", fill: "#{batch.active? ? 'green' : 'red'}") %>
+      <% end %>
+    </div>
 
-  <p>
-    <strong>Effectivity date:</strong>
-    <%= batch.effectivity_date %>
-  </p>
+    <div class="card-body text-center">
+      <%= content_tag :ul, class: "list-group list-group-flush" do %>
 
-  <p>
-    <strong>Expiry date:</strong>
-    <%= batch.expiry_date %>
-  </p>
+        <%= content_tag :li, class: "list-group-item" do %>
+          <%= content_tag :p do %>
+            Group Remit Name: <%= content_tag :span, batch.group_remit.name, class: "lead fw-bold" %>
+          <% end %>
+        <% end %>
 
-  <p>
-    <strong>Active:</strong>
-    <%= batch.active %>
-  </p>
+        <%= content_tag :li, class: "list-group-item" do %>
+          <div class="row">
+            <%= content_tag :p, class: "col-4" do %>
+              Effectivity Date: <%= content_tag :span, batch.effectivity_date, class: "lead fw-bold" %>
+            <% end %>
+            <%= content_tag :p, class: "col-4" do %>
+              Expiry Date: <%= content_tag :span, batch.expiry_date, class: "lead fw-bold" %>
+            <% end %>
+            <%= content_tag :p, class: "col-4" do %>
+              <% terms = (batch.expiry_date.year * 12 + batch.expiry_date.month) - (batch.effectivity_date.year * 12 + batch.effectivity_date.month) %>
+              Terms: <%= content_tag :span, "#{terms} month".pluralize, class: "lead fw-bold" %>
+            <% end %>
+          </div>
+        <% end %>
 
-  <p>
-    <strong>Coop sf amount:</strong>
-    <%= batch.coop_sf_amount %>
-  </p>
+         <%= content_tag :li, class: "list-group-item" do %>
+          <div class="row">
+            <%= content_tag :p, class: "col-6" do %>
+              Cooperative Service Fee: <%= content_tag :span, to_currency(batch.coop_sf_amount), class: "lead fw-bold" %>
+            <% end %>
+            <%= content_tag :p, class: "col-6" do %>
+              Agent Service Fee: <%= content_tag :span, to_currency(batch.agent_sf_amount), class: "lead fw-bold" %>
+            <% end %>
+          </div>
+        <% end %>
 
-  <p>
-    <strong>Agent sf amount:</strong>
-    <%= batch.agent_sf_amount %>
-  </p>
+      <% end %>
+    </div>
+
+    <div class="card-footer">
+      Thank you
+    </div>
+
+  </div>
+
+  <div class="card col-10 mb-3">
+    <div class="card-header">
+      <%= content_tag :span, "Health Declaration", class: "lead" %>
+    </div>
+    <div class="card-body">
+
+      <div class="row fw-bold">
+        <div class="col-8">
+          QUESTIONS
+        </div>
+        <div class="col-4">
+          ANSWERS
+        </div>
+      </div>
+
+      <% HealthDecQuestion.column_names.each do |col| %>
+        <% next unless col.start_with?("question_") %>
+        <div class="row">
+          <div class="col-8 mb-1">
+            <% ans = col[9..-1] %>
+            <% if @batch_health_dec["ans_q#{ans}"] == "" %>
+              <% f_ans = "-" %>
+            <% else %>
+              <% f_ans = @batch_health_dec["ans_q#{ans}"] %>
+            <% end %>
+            <%= col.humanize %>: <%= @health_dec.send(col) %>
+          </div>
+          <div class="col-4">
+            <%= content_tag :span, health_dec_answer(f_ans) %>
+          </div>
+        </div>
+        <hr>
+      <% end %>
+
+    </div>
+  </div>
 
 </div>

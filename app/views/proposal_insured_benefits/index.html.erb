@@ -1,0 +1,41 @@
+<%= content_tag :h1, "List of Proposal Insured Benefits" %>
+
+<div class="text-end mb-3">
+  <%= link_to new_proposal_insured_benefit_path, class: 'btn btn-primary' do %>
+    New
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Proposal</th>
+        <th>Benefit</th>
+        <th>amount</th>
+        <th>premium</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @proposal_insured_benefits.each do |pib| %>
+        <tr>
+          <td>
+            <%= content_tag :span, pib.proposal_insured.proposal.proposal_no, class: "lead" %> <br>
+            <%= content_tag :span, pib.proposal_insured.insured_type.name, class: "badge bg-primary" %>
+          </td>
+          <td><%= pib.benefit.name %></td>
+          <td><%= pib.cov_amount %></td>
+          <td><%= pib.premium %></td>
+          <td>
+            <%= link_to "View", pib, class: "btn btn-sm btn-secondary" %>
+            <%= link_to "Edit", edit_proposal_insured_benefit_path(pib), class: "btn btn-sm btn-success" %>
+            <%= link_to "Delete", proposal_insured_benefit_path(pib), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

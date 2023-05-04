@@ -63,11 +63,17 @@
     <tbody>
       <%# group_remit.batches.each do |batch| %>
       <% @filtered_batches.each do |batch| %>
+        <% mem_bday = batch.coop_member.member.birthdate %>
+        <% effect = batch.effectivity_date %>
+        <%# if mem_bday.nil? %>
+        <%# mem_age = effect.year - mem_bday.year - ((effect.month > mem_bday.month || (effect.month == mem_bday.month && effect.day >= mem_bday.day)) ? 0 : 1)
+end %>
         <tr>
           <td>
-            <%= batch.coop_member.full_name %>
+            <%= link_to batch.coop_member.member, batch, class: "link-primary" %> <br>
+            <%= mem_bday %>
           </td>
-          <td><%= batch.effectivity_date %></td>
+          <td><%= effect %></td>
           <td><%= batch.expiry_date %></td>
           <td> <%= batch.status %> </td>
           <td><%= bootstrap_icon "#{batch.active? ? 'check-circle-fill' : 'exclamation-circle-fill'}", fill: "#{batch.active? ? 'green' : 'red'}" %></td>

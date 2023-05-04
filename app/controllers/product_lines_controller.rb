@@ -68,3 +68,4 @@ class ProductLinesController < ApplicationController
       params.require(:product_line).permit(:name, :code)
     end
 end
+

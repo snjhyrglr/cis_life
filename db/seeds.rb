@@ -28,13 +28,13 @@
 # end
 
 # GYRT RATES
-spreadsheet = Roo::Spreadsheet.open("./db/uploads/gyrt rates.xlsx")
-(3..spreadsheet.last_row).each do |rate|
-  gr = GyrtRate.find_or_initialize_by(age: spreadsheet.cell(rate, "A"), benefit_id: Benefit.find_by(short_name: spreadsheet.cell(rate, "C")).id)
-  gr.rate = spreadsheet.cell(rate, "B")
+# spreadsheet = Roo::Spreadsheet.open("./db/uploads/gyrt rates.xlsx")
+# (3..spreadsheet.last_row).each do |rate|
+#   gr = GyrtRate.find_or_initialize_by(age: spreadsheet.cell(rate, "A"), benefit_id: Benefit.find_by(short_name: spreadsheet.cell(rate, "C")).id)
+#   gr.rate = spreadsheet.cell(rate, "B")
 
-  puts "#{gr.age} - #{gr.benefit.name} - #{gr.rate} DONE!" if gr.save!
-end
+#   puts "#{gr.age} - #{gr.benefit.name} - #{gr.rate} DONE!" if gr.save!
+# end
 
 
 
@@ -261,26 +261,39 @@ end
 
 #   puts "---- #{group_remit} ----"
 
-#   coop_member = CoopMember.find_or_initialize_by(
-#     cooperative: coop, 
+#   coop_member = Member.find_or_initialize_by(
 #     last_name: spreadsheet.cell(row, "A"),
 #     first_name: spreadsheet.cell(row, "B"),
 #     middle_name: spreadsheet.cell(row, "C"),
 #     suffix: spreadsheet.cell(row, "D"),
 #     birthdate: spreadsheet.cell(row, "E"))
-#   if coop_member.new_record?
+#   # if coop_member.new_record?
+#   #   cm_status = "NEW"
+#   # else
+#   #   if coop_member.batches.count >= 1
+#   #     cm_status = "RENEWAL"
+#   #   else
+#   #     cm_status = "TRANSFERRED"
+#   #   end
+#   # end
+#   # coop_member.coop_branch = coop.coop_branches.first
+#   coop_member.mobile_no = "-"
+#   coop_member.email = "#{coop_member.last_name}.#{coop_member.first_name}@test.com"
+#   puts "#{coop_member.last_name}, #{coop_member.first_name} - DONE!" if coop_member.save!
+
+#   c_member = CoopMember.find_or_initialize_by(cooperative: coop, member_id: coop_member.id)
+#   c_member.coop_branch_id = coop.coop_branches.first.id
+#   if c_member.new_record?
 #     cm_status = "NEW"
 #   else
-#     if coop_member.batches.count >= 1
+#     if c_member.batches.count >= 1
 #       cm_status = "RENEWAL"
 #     else
 #       cm_status = "TRANSFERRED"
 #     end
 #   end
-#   coop_member.coop_branch = coop.coop_branches.first
-#   coop_member.mobile_number = "-"
-#   coop_member.email = "#{coop_member.last_name}.#{coop_member.first_name}@test.com"
-#   puts "#{coop_member.last_name}, #{coop_member.first_name} - DONE!" if coop_member.save!
+#   c_member.save!
+  
   
 #   #age
 #   now = Time.now.utc.to_date
@@ -301,7 +314,7 @@ end
 #   puts coop_sf 
 #   puts agent_sf 
 
-#   Batch.create(coop_member: coop_member,
+#   Batch.create(coop_member: c_member,
 #     group_remit: group_remit,
 #     # effectivity_date: Date.today,
 #     # expiry_date: "#{proposal.proposal_anniv.mon} #{proposal.proposal_anniv.day}, #{Date.today.year}".to_date,
@@ -312,7 +325,8 @@ end
 #     coop_sf_amount: coop_sf,
 #     agent_sf_amount: agent_sf
 #   )
-#   batch = Batch.find_or_initialize_by(coop_member: coop_member, group_remit: group_remit,
+
+#   batch = Batch.find_or_initialize_by(coop_member: c_member, group_remit: group_remit,
 #     effectivity_date: Date.today)
 #   batch.expiry_date = "#{proposal.proposal_anniv.mon} #{proposal.proposal_anniv.day}, #{Date.today.year}".to_date
 #   batch.active = b_active
@@ -320,6 +334,40 @@ end
 #   batch.coop_sf_amount = coop_sf
 #   batch.agent_sf_amount = agent_sf
 #   batch.status = cm_status
-#   puts "#{batch.id} - #{batch.coop_member.full_name} : DONE!" if batch.save!
+#   puts "#{batch.id} - #{batch.coop_member.member.last_name} : DONE!" if batch.save!
 
 # end
+
+
+# Agents
+
+spreadsheet = Roo::Spreadsheet.open('./db/uploads/SALES-TEAM.xlsx')
+(3..101).each do |row|
+  agent_group = AgentGroup.find_or_initialize_by(name: spreadsheet.cell(row, "A"))
+  agent_group.description = "Team #{agent_group.name}"
+  puts "#{agent_group.description} - Inserted" if agent_group.save!
+  
+  agent_pos = AgentPosition.find_or_initialize_by(name: spreadsheet.cell(row, "E"))
+  agent_pos.active = true
+  puts "#{agent_pos.name} - Inserted" if agent_pos.save!
+
+  agent = Agent.find_or_initialize_by(
+    last_name: spreadsheet.cell(row, "B"),
+    first_name: spreadsheet.cell(row, "C"),
+    middle_name: spreadsheet.cell(row, "D"))
+  agent.birthdate = ""
+  agent.mobile_number = ""
+  agent.agent_group = agent_group
+  agent.agent_position = agent_pos
+  puts "#{agent.first_name} #{agent.last_name} - Done!" if agent.save!
+
+  user_name = "#{agent.last_name.gsub(/\s/,"")}.#{agent_group.name.gsub(/\s/,"").downcase}"
+  email = "#{user_name}@1cisp.coop"
+
+  user = User.find_or_initialize_by(email: email)
+  user.password = user_name
+  user.userable = agent
+  user.admin = spreadsheet.cell(row, "H")
+  user.approved = true
+  puts "#{user.email} - DONE!" if user.save!
+end

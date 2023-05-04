@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  resources :process_remarks
+  resources :agent_positions
+  resources :process_coverages do 
+    get :approve_batch, on: :member
+    get :deny_batch, on: :member
+  end
+  resources :batch_health_decs
+  resources :health_dec_questions
+  resources :members
   resources :proposal_insured_loadings
   resources :rate_tables
   resources :gyrt_rate_multipliers
@@ -16,6 +25,8 @@ Rails.application.routes.draw do
   resources :insured_types
   resources :benefits
   resources :proposals
+  resources :proposal_insured_benefits
+  
   resources :batch_dependents, :batches, :group_remits, :agreement_benefits, :anniversaries, :agreements, :agent_groups, :departments, :agents, :coop_users, :employees
 
   resources :cooperatives do

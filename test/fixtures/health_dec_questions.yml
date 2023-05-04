@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question_1: MyText
+  question_2: MyText
+  question_3: MyText
+  question_3_desc: MyText
+  question_4: MyText
+  question_4_desc: MyText
+  question_5_a: MyText
+  question_5_a_desc: MyText
+  question_5_b: MyText
+  question_5_b_desc: MyText
+
+two:
+  question_1: MyText
+  question_2: MyText
+  question_3: MyText
+  question_3_desc: MyText
+  question_4: MyText
+  question_4_desc: MyText
+  question_5_a: MyText
+  question_5_a_desc: MyText
+  question_5_b: MyText
+  question_5_b_desc: MyText
