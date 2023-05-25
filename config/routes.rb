@@ -1,9 +1,20 @@
 Rails.application.routes.draw do
+  resources :batch_beneficiaries
+  resources :batch_remarks
+  resources :batch_dependents do
+    get :selected, on: :member
+    get :selected2, on: :member
+  end
+  resources :member_dependents
   resources :process_remarks
   resources :agent_positions
   resources :process_coverages do 
     get :approve_batch, on: :member
     get :deny_batch, on: :member
+    get :pending_batch, on: :member
+    get :approve
+    get :deny
+    get :modal_remarks, on: :member
   end
   resources :batch_health_decs
   resources :health_dec_questions
@@ -40,8 +51,8 @@ Rails.application.routes.draw do
     resources :coop_member_dependents, path: 'dependents', as: 'dependents'
   end
 
-  devise_for :admin_users#, ActiveAdmin::Devise.config
- # ActiveAdmin.routes(self)
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
 
   devise_for :users, controllers: {
     registrations: 'users/registrations'

@@ -34,7 +34,7 @@ function showHideTextbox(radioBtnId, textboxId) {
     });
 }
 
-document.addEventListener("turbo:load", function() {
+document.addEventListener("turbo:frame-load", function() {
   showHideTextbox('batch_health_dec[ans_q5_b]', 'myTextBox');
   showHideTextbox('batch_health_dec[ans_q5_a]', 'myTextBox1');
   showHideTextbox('batch_health_dec[ans_q4]', 'myTextBox2');

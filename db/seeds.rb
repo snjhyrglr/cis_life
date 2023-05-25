@@ -341,33 +341,52 @@
 
 # Agents
 
-spreadsheet = Roo::Spreadsheet.open('./db/uploads/SALES-TEAM.xlsx')
-(3..101).each do |row|
-  agent_group = AgentGroup.find_or_initialize_by(name: spreadsheet.cell(row, "A"))
-  agent_group.description = "Team #{agent_group.name}"
-  puts "#{agent_group.description} - Inserted" if agent_group.save!
+# spreadsheet = Roo::Spreadsheet.open('./db/uploads/SALES-TEAM.xlsx')
+# (3..101).each do |row|
+#   agent_group = AgentGroup.find_or_initialize_by(name: spreadsheet.cell(row, "A"))
+#   agent_group.description = "Team #{agent_group.name}"
+#   puts "#{agent_group.description} - Inserted" if agent_group.save!
   
-  agent_pos = AgentPosition.find_or_initialize_by(name: spreadsheet.cell(row, "E"))
-  agent_pos.active = true
-  puts "#{agent_pos.name} - Inserted" if agent_pos.save!
+#   agent_pos = AgentPosition.find_or_initialize_by(name: spreadsheet.cell(row, "E"))
+#   agent_pos.active = true
+#   puts "#{agent_pos.name} - Inserted" if agent_pos.save!
 
-  agent = Agent.find_or_initialize_by(
-    last_name: spreadsheet.cell(row, "B"),
-    first_name: spreadsheet.cell(row, "C"),
-    middle_name: spreadsheet.cell(row, "D"))
-  agent.birthdate = ""
-  agent.mobile_number = ""
-  agent.agent_group = agent_group
-  agent.agent_position = agent_pos
-  puts "#{agent.first_name} #{agent.last_name} - Done!" if agent.save!
+#   agent = Agent.find_or_initialize_by(
+#     last_name: spreadsheet.cell(row, "B"),
+#     first_name: spreadsheet.cell(row, "C"),
+#     middle_name: spreadsheet.cell(row, "D"))
+#   agent.birthdate = ""
+#   agent.mobile_number = ""
+#   agent.agent_group = agent_group
+#   agent.agent_position = agent_pos
+#   puts "#{agent.first_name} #{agent.last_name} - Done!" if agent.save!
 
-  user_name = "#{agent.last_name.gsub(/\s/,"")}.#{agent_group.name.gsub(/\s/,"").downcase}"
-  email = "#{user_name}@1cisp.coop"
+#   user_name = "#{agent.last_name.gsub(/\s/,"")}.#{agent_group.name.gsub(/\s/,"").downcase}"
+#   email = "#{user_name}@1cisp.coop"
 
-  user = User.find_or_initialize_by(email: email)
-  user.password = user_name
-  user.userable = agent
-  user.admin = spreadsheet.cell(row, "H")
-  user.approved = true
-  puts "#{user.email} - DONE!" if user.save!
-end
+#   user = User.find_or_initialize_by(email: email)
+#   user.password = user_name
+#   user.userable = agent
+#   user.admin = spreadsheet.cell(row, "H")
+#   user.approved = true
+#   puts "#{user.email} - DONE!" if user.save!
+# end
+
+# Add Age to Batch
+
+# batches = Batch.all
+
+# batches.each do |batch|
+#  mem = batch.coop_member.member
+#  eff = batch.effectivity_date
+
+#   if mem.birthdate.nil?
+#     mem_age = 0
+#   else
+#     mem_age = eff.year - mem.birthdate.year - ((eff.month > mem.birthdate.month || (eff.month == mem.birthdate.month && eff.day >= mem.birthdate.day)) ? 0 : 1)
+#   end
+
+#   batch.update_attribute(
+#     :age, mem_age
+#   )
+# end

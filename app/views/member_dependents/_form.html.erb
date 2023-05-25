@@ -1,0 +1,31 @@
+
+<%= simple_form_for(@member_dependent) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs mb-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <%= f.input :last_name, wrapper_html: { class: "col-3" } %>
+          <%= f.input :first_name, wrapper_html: { class: "col-3" } %>
+          <%= f.input :middle_name, wrapper_html: { class: "col-3" } %>
+          <%= f.input :suffix, wrapper_html: { class: "col-3" } %>
+        </div>
+        <div class="row">
+          <%= f.input :birthdate, wrapper_html: { class: "col-4" }, as: :string, input_html: { data: { controller: "flatpickr",
+          flatpickr_max_date: Time.zone.now,
+          flatpickr_next_arrow: "Next",
+          flatpickr_prev_arrow: "Prev" } } %>
+          <%= f.association :member, wrapper_html: { class: "col-4" }, input_html: { data: { controller: "ts--select" } } %>
+          <%= f.input :relationship, as: :select, collection: MemberDependent::RELATIONSHIPS, wrapper_html: { class: "col-4" } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions text-end">
+    <%= link_to "Back", member_dependents_path, class: 'btn btn-secondary' %>
+    <%= f.button :submit, class: 'btn-success' %>
+  </div>
+<% end %>

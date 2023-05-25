@@ -1,47 +1,124 @@
 <div id="<%= dom_id member %>">
-  <p>
-    <strong>Last name:</strong>
-    <%= member.last_name %>
-  </p>
 
-  <p>
-    <strong>First name:</strong>
-    <%= member.first_name %>
-  </p>
+  <div class="row">
+    <div class="col-6">
+      <div class="card mb-2">
+        <div class="card-header">
+          Member Details
+        </div>
+        <div class="card-body">
 
-  <p>
-    <strong>Middle name:</strong>
-    <%= member.middle_name %>
-  </p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-3">
+                  Last Name: <%= content_tag :b, member.last_name %>
+                </div>
+                <div class="col-3">
+                  First Name: <%= content_tag :b, member.first_name %>
+                </div>
+                <div class="col-3">
+                  Middle Name: <%= content_tag :b, member.middle_name %>
+                </div>
+                <div class="col-3">
+                  Suffix: <%= content_tag :b, member.suffix %>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-4">
+                  Birthdate: <%= content_tag :b, member.birthdate.strftime("%B %d, %Y") %>
+                </div>
+                <div class="col-4">
+                  Gender: <%= content_tag :b, member.gender %>
+                </div>
+                <div class="col-4">
+                  Occupation: <%= content_tag :b, member.occupation %>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-6">
+                  Mobile No.: <%= content_tag :b, member.mobile_no %>
+                </div>
+                <div class="col-6">
+                  E-mail: <%= content_tag :b, member.email %>
+                </div>
+              </div>
+            </li>
+          </ul>
 
-  <p>
-    <strong>Suffix:</strong>
-    <%= member.suffix %>
-  </p>
+        </div>
+      </div>
+    </div>
 
-  <p>
-    <strong>Birthdate:</strong>
-    <%= member.birthdate %>
-  </p>
+    <div class="col-6">
+      <div class="card mb-2">
+        <div class="card-header">
+          List of Coverages
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <th>Plan</th>
+              <th>Group Remit</th>
+              <th>Terms</th>
+              <th>Sum Insured</th>
+              <th>Premium</th>
+            </thead>
+            <tbody>
+              <tr>
+                <% member.coop_members.each do |cm| %>
+                  <% cm.batches.each do |batch| %>
+                    <% mem_bday = batch.coop_member.member.birthdate %>
+                    <% effect = batch.effectivity_date %>
+                    <% pi = batch.group_remit.moa.proposal.proposal_insureds.where(insured_type: 1).first %>
+                    <% total_cov = pi.proposal_insured_benefits.first.cov_amount %>
+                    <td>
+                      <%= batch.group_remit.moa.proposal.plan.short_name %>
+                    </td>
+                    <td><%= batch.group_remit %></td>
+                    <td>
+                      <% terms = (batch.expiry_date.year * 12 + batch.expiry_date.month) - (effect.year * 12 + effect.month) %>
+                
+                      <%= process_dates("Eff", effect) %> <br>
+                      <%= process_dates("Exp", batch.expiry_date) %> <br>
+                      <%= process_dates("Terms", terms) %><br>
+                    </td>
+                    <td><%= to_currency(total_cov) %></td>
+                    <td><%= to_currency(pi.total_prem) %></td>
+                  <% end %>
+                <% end %>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <p>
-    <strong>Mobile no:</strong>
-    <%= member.mobile_no %>
-  </p>
-
-  <p>
-    <strong>Email:</strong>
-    <%= member.email %>
-  </p>
-
-  <p>
-    <strong>Gender:</strong>
-    <%= member.gender %>
-  </p>
-
-  <p>
-    <strong>Occupation:</strong>
-    <%= member.occupation %>
-  </p>
+  <div class="row">
+    <div class="col-6">
+      <div class="card mb-2">
+        <div class="card-header">
+          List of Beneficiaries
+        </div>
+        <div class="card-body">
+          <% member.coop_members.each do |cm| %>
+            <% cm.batches.includes(:batch_beneficiaries).each do |batch| %>
+              <%= content_tag :p, batch.group_remit, class: "lead fw-bold" %>
+              <% batch.batch_beneficiaries.each do |ben| %>
+                <%= ben %> (<%= ben.age %> yrs. old) - <%= ben.member_dependent.relationship %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <hr>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>

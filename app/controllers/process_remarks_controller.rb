@@ -8,13 +8,25 @@ class ProcessRemarksController < ApplicationController
 
   # GET /process_remarks/1 or /process_remarks/1.json
   def show
+    
   end
 
   # GET /process_remarks/new
   def new
     # raise 'errors'
+    @title = case params[:pro_status]
+    when "Approve" then "Process Approval"
+    when "Deny" then "Process Denial"
+    else
+      "Add Remark"
+    end
+
+    @process_status = params[:pro_status]
+    
+
+   
     @process_coverage = ProcessCoverage.find(params[:ref])
-    @process_remark = @process_coverage.process_remarks.build
+    @process_remark = @process_coverage.process_remarks.build(remark: FFaker::Lorem.sentence)
   end
 
   # GET /process_remarks/1/edit
@@ -30,9 +42,16 @@ class ProcessRemarksController < ApplicationController
 
     respond_to do |format|
       if @process_remark.save
-        format.html { redirect_to process_coverage_url(params[:process_remark][:reference_id]), notice: "Process remark was successfully created." }
+        if params[:process_remark][:process_status] == "Approve"
+          format.html { redirect_to process_coverage_approve_path(process_coverage_id: params[:process_remark][:reference_id])}
+        elsif params[:process_remark][:process_status] == "Deny"
+          format.html { redirect_to process_coverage_deny_path(process_coverage_id: params[:process_remark][:reference_id])}
+        else
+          format.html { redirect_to process_coverage_url(params[:process_remark][:reference_id]), notice: "Process remark was successfully created." }
+          format.json { render :show, status: :created, location: @process_remark }
+        end
         # format.html { redirect_back fallback_location:, notice: "Process remark was successfully created." }
-        format.json { render :show, status: :created, location: @process_remark }
+        
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @process_remark.errors, status: :unprocessable_entity }
@@ -71,6 +90,6 @@ class ProcessRemarksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def process_remark_params
-      params.require(:process_remark).permit(:reference_id, :reference_type, :remark)
+      params.require(:process_remark).permit(:reference_id, :reference_type, :remark, :process_status)
     end
 end

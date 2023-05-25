@@ -10,6 +10,7 @@
     <%= f.input :reference_type, value: @process_coverage.class.name, as: :hidden %>
     <%= f.input :reference_id, value: @process_coverage.id, as: :hidden %>
     <%= f.input :remark %>
+    <%= f.input :process_status, input_html: { value: @process_status }, as: :hidden%>
     <%#= f.input :user  %>
   </div>
 

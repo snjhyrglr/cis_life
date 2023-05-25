@@ -11,4 +11,8 @@ class Member < ApplicationRecord
     "#{first_name} #{last_name}"
   end
   
+  def self.batch_cov_amount(batch_id)
+    cov_amount = ProposalInsuredBenefit.joins(proposal_insured: {proposal:  { moa: { group_remit: :batch } } }).where(batches: { id: batch_id}).cov_amount
+  end
+  
 end

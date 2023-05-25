@@ -5,7 +5,7 @@ class BatchHealthDec < ApplicationRecord
 
   validate :docs_type
 
-  STATUSES = ["Approve", "Denied", "Pending"]
+  STATUSES = ["For UND Review", "For MD Review"]
 
 
   private

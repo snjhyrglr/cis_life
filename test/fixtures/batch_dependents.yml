@@ -2,12 +2,10 @@
 
 one:
   batch: one
-  coop_dependent: one
-  premium: 1.5
-  agreement_benefit: one
+  member_dependent: one
+  premium: 9.99
 
 two:
   batch: two
-  coop_dependent: two
-  premium: 1.5
-  agreement_benefit: two
+  member_dependent: two
+  premium: 9.99

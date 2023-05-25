@@ -12,7 +12,7 @@ class GroupRemitsController < ApplicationController
       @batches = @group_remit.batches.includes(:coop_member)
       puts "gr - yes"
     else
-      @batches = @group_remit.batches.joins(:coop_member).where("coop_members.last_name LIKE ? OR coop_members.first_name LIKE ? OR coop_members.middle_name LIKE ? OR batches.status LIKE ?", "%#{params[:search_filter]}%", "%#{params[:search_filter]}%", "%#{params[:search_filter]}%", "%#{params[:search_filter]}%")
+      @batches = @group_remit.batches.coop_member.joins(:member).where("members.last_name LIKE ? OR members.first_name LIKE ? OR members.middle_name LIKE ? OR batches.status LIKE ?", "%#{params[:search_filter]}%", "%#{params[:search_filter]}%", "%#{params[:search_filter]}%", "%#{params[:search_filter]}%")
       puts "gr - no"
     end
     # paginate members

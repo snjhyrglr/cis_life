@@ -1,0 +1,5 @@
+<%= turbo_stream.update @target2 do %>
+  <%= @insured_types.each do |it| %>
+    <%= content_tag :option, it.insured_type.name, value: it.id  %>
+  <% end %>
+<% end %>

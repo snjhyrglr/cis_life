@@ -47,11 +47,48 @@ module ApplicationHelper
 
   def insurance_status(val)
     case val
-    when "Pending" then content_tag(:span, val, class: "lead text-secondary")
+    when "For Review" then content_tag(:span, val, class: "lead text-muted")
+    when "Pending" then content_tag(:span, val, class: "lead text-dark")
     when "Approved" then content_tag(:span, val, class: "lead text-success")
     when "Denied" then content_tag(:span, val, class: "lead text-danger")
     end
   end
 
-  
+  def batch_status(val)
+    case val
+    when "NEW" then content_tag(:span, val, class: "badge bg-primary")
+    when "TRANSFERRED" then content_tag(:span, val, class: "badge bg-secondary")
+    when "RENEWAL" then content_tag(:span, val, class: "badge bg-success")
+    end
+  end
+
+  def process_dates(type, val)
+    content_tag :small do
+      "#{type}: #{content_tag(:b, val)}".html_safe
+    end
+  end
+
+  def process_premiums(type, val)
+    content_tag :span, class: process_premiums_class(type)  do
+      "#{type}: #{content_tag(:b, to_currency(val))}".html_safe
+    end
+  end
+
+  def process_premiums_class(val)
+    if val == "Net Prem"
+      "badge text-success text-start"
+    elsif val == "Premium"
+      "badge text-dark text-start"
+    else
+      "badge text-danger text-start"
+    end
+  end
+
+  def process_status(val)
+    case val
+    when "Pending" then content_tag(:span, val, class: "text-secondary")
+    when "Approved" then content_tag(:span, val, class: "text-success")
+    when "Denied" then content_tag(:span, val, class: "text-danger")
+    end
+  end
 end

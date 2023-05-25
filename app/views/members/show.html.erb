@@ -1,9 +1,12 @@
 
-<%= render @member %>
+<%= render 'remote_modal', title: "Member Details" do %>
+  <%= render @member %>
+<% end %>
+
 
 <div>
   <%= link_to "Edit", edit_member_path(@member), class: 'btn btn-primary' %> |
-  <%= link_to "Back", members_path, class: 'btn btn-primary' %>
+  <%= link_to "Back", :back, class: 'btn btn-primary' %>
 
   <%= button_to "Delete", @member, method: :delete, class: 'btn btn-danger' %>
 </div>

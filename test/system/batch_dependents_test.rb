@@ -14,9 +14,8 @@ class BatchDependentsTest < ApplicationSystemTestCase
     visit batch_dependents_url
     click_on "New batch dependent"
 
-    fill_in "Agreement benefit", with: @batch_dependent.agreement_benefit_id
     fill_in "Batch", with: @batch_dependent.batch_id
-    fill_in "Coop dependent", with: @batch_dependent.coop_dependent_id
+    fill_in "Member dependent", with: @batch_dependent.member_dependent_id
     fill_in "Premium", with: @batch_dependent.premium
     click_on "Create Batch dependent"
 
@@ -28,9 +27,8 @@ class BatchDependentsTest < ApplicationSystemTestCase
     visit batch_dependent_url(@batch_dependent)
     click_on "Edit this batch dependent", match: :first
 
-    fill_in "Agreement benefit", with: @batch_dependent.agreement_benefit_id
     fill_in "Batch", with: @batch_dependent.batch_id
-    fill_in "Coop dependent", with: @batch_dependent.coop_dependent_id
+    fill_in "Member dependent", with: @batch_dependent.member_dependent_id
     fill_in "Premium", with: @batch_dependent.premium
     click_on "Update Batch dependent"
 

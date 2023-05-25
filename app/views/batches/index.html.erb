@@ -1,3 +1,5 @@
+
+
 <%= content_tag :h1, "List of Batches" %>
 
 
@@ -7,6 +9,23 @@
   <% end %>
 </div>
 
+
+<div class="row mb-2">
+  <div class="col-1">
+    <%= link_to "18-65", batches_path(search: "regular"), class: "btn btn-outline-primary"  %>
+  </div>
+  <div class="col-1">
+    <%= link_to "Overage", batches_path(search: "overage"), class: "btn btn-outline-warning"  %>
+  </div>
+  <div class="col-1">
+    <%= link_to "View All", batches_path, class: "btn btn-outline-success"  %>
+  </div>
+</div>
+   
+
+
+<%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
+
 <div class="table-responsive">
   <table class="table table-striped table-bordered table-hover">
     <thead>
@@ -14,6 +33,7 @@
 
       <th>ID</th>
         <th>Coop Member</th>
+        <th>Age</th>
         <th>Group Remit</th>
         <th>Effectivity Date</th>
         <th>Expiry Date</th>
@@ -31,6 +51,7 @@
 
         <td><%= batch.id %></td>
         <td><%= batch.coop_member %></td>
+        <td><%= batch.age %></td>
         <td><%= batch.group_remit %></td>
         <td><%= batch.effectivity_date %></td>
         <td><%= batch.expiry_date %></td>

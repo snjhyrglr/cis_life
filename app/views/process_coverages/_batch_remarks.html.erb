@@ -1,0 +1,16 @@
+<ul>
+  <% batch.batch_remarks.each do |rem| %>
+  <div class="row">
+    <div class="col-6">
+      <li>
+        <%= rem.text %>
+      </li>
+    </div>
+     <div class="col-6">
+      <li>
+        <%= rem.user %>
+      </li>
+    </div>
+  </div>
+  <% end %>
+</ul>

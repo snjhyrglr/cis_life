@@ -9,11 +9,18 @@ class BatchHealthDecsController < ApplicationController
   # GET /batch_health_decs/1 or /batch_health_decs/1.json
   def show
     @health_dec = @batch_health_dec.health_dec_question
+    @batch = @batch_health_dec.batch
   end
 
   # GET /batch_health_decs/new
   def new
-    @batch_health_dec = BatchHealthDec.new
+    if params[:u_type] == 'Coop1'
+      stat = "For UND Review"
+    else 
+      stat = ""
+    end
+
+    @batch_health_dec = BatchHealthDec.new(batch: Batch.find_by(id: params[:b_id]), status: stat)
     @health_dec = HealthDecQuestion.find_by(id: 1)
   end
 
@@ -23,7 +30,7 @@ class BatchHealthDecsController < ApplicationController
 
   # POST /batch_health_decs or /batch_health_decs.json
   def create
-    raise 'errors'
+    # raise 'errors'  
     @batch_health_dec = BatchHealthDec.new(batch_health_dec_params)
     @health_dec = HealthDecQuestion.find_by(id: 1)
 
@@ -34,6 +41,7 @@ class BatchHealthDecsController < ApplicationController
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @batch_health_dec.errors, status: :unprocessable_entity }
+        format.turbo_stream { render :form_update, status: :unprocessable_entity }
       end
     end
   end

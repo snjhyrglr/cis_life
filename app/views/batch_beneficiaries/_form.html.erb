@@ -1,0 +1,18 @@
+
+<%= simple_form_for(@batch_beneficiary) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs mb-3">
+    <div data-controller="member">
+      <%#= f.association :batch %>
+      <%= f.input :batch_id, as: :select, collection: Batch.includes(:coop_member, :member), input_html: { id: "batch_id", data: { action: "change->member#change", controller: "ts--select" } } %>
+      <%= f.association :member_dependent, input_html: { id: "member_dependent_id", data: { member_target: "dependentSelect" } } %>
+    </div>
+  </div>
+
+  <div class="form-actions text-end">
+    <%= link_to "Back", batch_beneficiaries_path, class: 'btn btn-secondary' %>
+    <%= f.button :submit, class: 'btn-success' %>
+  </div>
+<% end %>

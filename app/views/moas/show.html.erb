@@ -1,3 +1,11 @@
+<% if params[:for_modal] == "yes" %>
+  <%= render "remote_modal", title: "MOA" do %>
+    <%= render @moa %>
+  <% end %>
+<% else %>
+  <%= render @moa %>
+<% end %>
+
 
 <%= render @moa %>
 

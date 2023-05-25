@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_04_011254) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_23_005813) do
   create_table "active_admin_comments", charset: "utf8mb4", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -120,16 +120,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_011254) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "batch_dependents", charset: "utf8mb4", force: :cascade do |t|
+  create_table "batch_beneficiaries", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "batch_id"
-    t.bigint "coop_dependent_id"
-    t.float "premium"
-    t.bigint "agreement_benefit_id"
+    t.bigint "member_dependent_id"
+    t.integer "age"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["agreement_benefit_id"], name: "index_batch_dependents_on_agreement_benefit_id"
+    t.index ["batch_id"], name: "index_batch_beneficiaries_on_batch_id"
+    t.index ["member_dependent_id"], name: "index_batch_beneficiaries_on_member_dependent_id"
+  end
+
+  create_table "batch_dependents", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "batch_id", null: false
+    t.bigint "member_dependent_id", null: false
+    t.decimal "premium", precision: 10
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "proposal_insured_id"
     t.index ["batch_id"], name: "index_batch_dependents_on_batch_id"
-    t.index ["coop_dependent_id"], name: "index_batch_dependents_on_coop_dependent_id"
+    t.index ["member_dependent_id"], name: "index_batch_dependents_on_member_dependent_id"
+    t.index ["proposal_insured_id"], name: "index_batch_dependents_on_proposal_insured_id"
   end
 
   create_table "batch_health_decs", charset: "utf8mb4", force: :cascade do |t|
@@ -155,6 +165,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_011254) do
     t.index ["health_dec_question_id"], name: "index_batch_health_decs_on_health_dec_question_id"
   end
 
+  create_table "batch_remarks", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "batch_id"
+    t.string "text"
+    t.string "user_type"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["batch_id"], name: "index_batch_remarks_on_batch_id"
+    t.index ["user_type", "user_id"], name: "index_batch_remarks_on_user"
+  end
+
   create_table "batches", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "coop_member_id"
     t.bigint "group_remit_id"
@@ -168,6 +189,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_011254) do
     t.decimal "premium", precision: 15, scale: 2
     t.string "status"
     t.string "insurance_status"
+    t.integer "age"
     t.index ["coop_member_id"], name: "index_batches_on_coop_member_id"
     t.index ["group_remit_id"], name: "index_batches_on_group_remit_id"
   end
@@ -350,6 +372,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_011254) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "member_dependents", charset: "utf8mb4", force: :cascade do |t|
+    t.string "last_name"
+    t.string "first_name"
+    t.string "middle_name"
+    t.string "suffix"
+    t.date "birthdate"
+    t.bigint "member_id", null: false
+    t.string "relationship"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_member_dependents_on_member_id"
   end
 
   create_table "members", charset: "utf8mb4", force: :cascade do |t|
@@ -561,7 +596,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_011254) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "batch_dependents", "batches"
+  add_foreign_key "batch_dependents", "member_dependents"
   add_foreign_key "batch_health_decs", "batches"
   add_foreign_key "batch_health_decs", "health_dec_questions"
   add_foreign_key "coop_member_dependents", "coop_members"
+  add_foreign_key "member_dependents", "members"
 end

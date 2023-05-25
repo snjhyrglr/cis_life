@@ -45,16 +45,15 @@
 
   <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
 
-  <div class="mt-1 mb-1 text-end">
+  <!-- <div class="mt-1 mb-1 text-end">
     <%= link_to "Approve All", "#", class: "btn btn-success" %>
     <%= link_to "Deny All", "#", class: "btn btn-danger" %>
-  </div>
+  </div> -->
 
   <table class="table">
     <thead>
       <th>Member</th>
-      <th>Effective Date</th>
-      <th>Expiry Date</th>
+      <th>Terms</th>
       <th>Status</th>
       <th>Active</th>
       <th>Premium</th>
@@ -73,8 +72,13 @@ end %>
             <%= link_to batch.coop_member.member, batch, class: "link-primary" %> <br>
             <%= mem_bday %>
           </td>
-          <td><%= effect %></td>
-          <td><%= batch.expiry_date %></td>
+          <td>
+            <% terms = (batch.expiry_date.year * 12 + batch.expiry_date.month) - (effect.year * 12 + effect.month) %>
+            
+            <%= process_dates("Eff", effect) %> <br>
+            <%= process_dates("Exp", batch.expiry_date) %> <br>
+            <%= process_dates("Terms", terms) %><br>
+          </td>
           <td> <%= batch.status %> </td>
           <td><%= bootstrap_icon "#{batch.active? ? 'check-circle-fill' : 'exclamation-circle-fill'}", fill: "#{batch.active? ? 'green' : 'red'}" %></td>
           <td>
@@ -96,12 +100,19 @@ end %>
           </td>
           <td>
             <% if batch.active? %>
-              <%= link_to "#", title: "Approve", class: "btn btn-sm btn-success" do %>
-                <%= bootstrap_icon "check-lg" %>
+              <% if batch.health_dec_question.nil? %>
+                <%= link_to new_batch_health_dec_path(b_id: batch, u_type: "Coop"), title: "Health Declaration", class: "btn btn-sm btn-warning", data: { turbo_frame: "remote_modal" } do %>
+                <%= bootstrap_icon "file-earmark-medical" %>
+                <% end %>
+              <% else %>
+                <%= content_tag :p, "Health Dec already", class: "lead" %>
               <% end %>
-              <%= link_to "#", title: "Deny", class: "btn btn-sm btn-danger" do %>
-                <%= bootstrap_icon "x-lg" %>
-              <% end %>
+              <%#= link_to "#", title: "Approve", class: "btn btn-sm btn-success" do %>
+                <%#= bootstrap_icon "check-lg" %>
+              <%# end %>
+              <%#= link_to "#", title: "Deny", class: "btn btn-sm btn-danger" do %>
+                <%#= bootstrap_icon "x-lg" %>
+              <%# end %>
             <% end %>  
           </td>
         </tr>

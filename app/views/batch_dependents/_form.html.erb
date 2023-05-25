@@ -4,10 +4,13 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs mb-3">
-    <%= f.association :batch %>
-    <%= f.association :coop_dependent %>
-    <%= f.input :premium %>
-    <%= f.association :agreement_benefit %>
+    <div data-controller="member">
+      <%#= f.association :batch, input_html: { id: "batch_id", data: { action: "change->member#change", controller: "ts--select" } } %>
+      <%= f.input :batch, as: :select, collection: Batch.includes(:coop_member, :member), input_html: { id: "batch_id", data: { action: "change->member#change", controller: "ts--select" } } %>
+      <%#= f.input :batch_id, as: :hidden, input_html: { value: params[:batch] } %>
+      <%= f.association :member_dependent, input_html: { id: "member_dependent_id", data: { member_target: "dependentSelect" } } %>
+      <%= f.association :proposal_insured, as: :select, collection: [], input_html: { id: "dependent_type_id", data: { member_target: "typeSelect" } } %>
+    </div>
   </div>
 
   <div class="form-actions text-end">

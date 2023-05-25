@@ -8,6 +8,7 @@ class MoasController < ApplicationController
 
   # GET /moas/1 or /moas/1.json
   def show
+    @proposal = @moa.proposal
   end
 
   # GET /moas/new
